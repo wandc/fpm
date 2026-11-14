@@ -1,0 +1,133 @@
+/* SPDX-License-Identifier: AGPL-3.0-or-later
+ * Copyright (C) 2025-2026 Tinuum Networks Inc. */
+/* Ribbon / packs */
+.fiber-ribbon{ display:flex; flex-direction:column; gap:.25rem; }
+.fiber-pack{ display:flex; align-items:center; flex-wrap:wrap; }
+.fiber-pack-label{
+  font-size:.8rem; font-weight:600; color:#6c757d;
+  margin-right:.4rem; min-width:4.5rem;
+}
+.fiber-tubes{ display:flex; gap:.5rem; flex-wrap:wrap; align-items:center; }
+.fiber-tube{
+  display:flex; align-items:center; gap:.4rem;
+  border-radius:999px; padding:.25rem .5rem;
+  border:1px solid rgba(0,0,0,.12);
+  box-shadow:0 1px 0 rgba(0,0,0,.05) inset;
+  font-size:.8rem; line-height:1;
+}
+.fiber-tube .swatch{ width:12px; height:12px; border-radius:50%; border:1px solid rgba(0,0,0,.25); }
+.fiber-tube .label{ font-weight:600; }
+.fiber-tube .range{ opacity:.8; }
+.fiber-tubes .dim{ opacity:.45; }
+.fiber-tube.small{ padding:.2rem .45rem; font-size:.78rem; }
+
+.fiber-chip{
+  display:inline-block;
+  min-width:30px;
+  height:10px;
+  line-height:10px;
+  margin:2px 3px;
+  font-size:9px;
+  text-align:center;
+  border-radius:2px;
+  white-space:nowrap;
+}
+
+/*
+
+
+
+*/
+
+/* Charts */
+.fiber-chart,
+.splitter{
+  position:relative;
+  width:90px;
+  z-index:2; /* ensure charts sit above gutter strokes */
+}
+.chart-inner{
+  position:relative;
+  border:1px solid #dee2e6;
+  border-radius:6px;
+  padding:4px;
+  background:#fff; /* hides gutter lines behind */
+}
+.connector-layer{
+  position:absolute; inset:0; width:100%; height:100%;
+  pointer-events:none;
+}
+
+/* Cable stubs + label */
+.cable-stub{
+  position:absolute; top:4px; bottom:4px; width:12px;
+  background:#000; border-radius:8px;
+  box-shadow:0 0 0 1px rgba(0,0,0,.15) inset;
+  z-index:1;
+}
+.cable-stub.stub-left{  left:-10px; }
+.cable-stub.stub-right{ right:-10px; }
+
+.stub-label{
+  position:absolute; top:50%; transform:translateY(-50%);
+  font-size:10px; line-height:1; color:#fff; background:#000;
+  padding:2px 6px; border-radius:999px; white-space:nowrap;
+  z-index:3; /* on top */
+}
+.cable-stub.stub-left  .stub-label{ left:14px; }
+.cable-stub.stub-right .stub-label{ right:14px; }
+
+/* Option: pill fully outside the chart */
+.cable-stub.stub-left  .stub-label{ left:-8px; transform:translate(-100%, -50%); }
+.cable-stub.stub-right .stub-label{ right:-8px; transform:translate(100%, -50%); }
+
+/* Table sizing */
+.fiber-table{ border-collapse:collapse; width:100%; table-layout:fixed; position:relative; z-index:0; }
+.fiber-table th, .fiber-table td{ border:1px solid #e9ecef; padding:0; }
+.col-fiber{ width:38px; }
+.col-bf{ width:10px; }
+.col-nu{ width:16px; text-align:center; }
+.cell-fiber,.cell-bf,.cell-nu{ height:14px; line-height:14px; }
+
+/* Gutters: strokes render BEHIND charts and are clipped */
+.gutter{
+  position:relative;
+  flex:0 0 60px;
+  width:60px;
+  min-width:60px;
+  align-self:stretch;
+  z-index:0;         /* behind charts */
+}
+.between-svg{
+  position:absolute; inset:0;
+  display:block; width:100%; height:100%;
+  overflow:visible; pointer-events:none;
+  z-index:0; /* still behind */
+}
+
+/* Layout around A | gutter | splitters | gutter | drops */
+.wrap3{
+  display:grid;
+  grid-template-columns:1fr 60px 1fr 60px 1fr;
+  gap:10px;
+  align-items:start;
+}
+
+/* Splitter input indicator (triangle pointing right) */
+.splitter .fiber-table tr.split-row[data-kind="in"] .cell-fiber {
+  position: relative; /* anchor for the triangle */
+}
+.splitter .fiber-table tr.split-row[data-kind="in"] .cell-fiber::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -8px;                 /* nudge to sit just outside the left edge */
+  transform: translate(-100%, -50%);
+  width: 0;
+  height: 0;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-right: 10px solid #000;  /* black triangle pointing into the splitter */
+  pointer-events: none;
+  z-index: 2;                   /* above table border */
+}

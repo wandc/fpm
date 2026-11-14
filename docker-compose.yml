@@ -1,0 +1,73 @@
+# Minimal stack: the app (Apache + PHP 8.3) and PostgreSQL 16 with PostGIS.
+#
+# The app is published on http://127.0.0.1:48731 by default (an unusual port so it does not collide with anything).
+# Change APP_PORT in .env to move it, and BIND_ADDR=0.0.0.0 to reach it from other computers. Read INSTALL.md first:
+# the demo login (demo / demo) is ON by default in this file and must be turned off for a real installation.
+services:
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    container_name: ${COMPOSE_PROJECT_NAME:-fpm}-app
+    environment:
+      APACHE_DOCUMENT_ROOT: /var/www/html/www/public
+      PHP_MEMORY_LIMIT: ${PHP_MEMORY_LIMIT:-512M}
+      PHP_UPLOAD_LIMIT: ${PHP_UPLOAD_LIMIT:-64M}
+      TZ: ${TZ:-UTC}
+      APP_DB_HOST: db
+      APP_DB_PORT: 5432
+      APP_DB_NAME: ${POSTGRES_DB:-fpm_db}
+      APP_DB_USER: ${POSTGRES_USER:-appuser}
+      APP_DB_PASS: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      # Sign-in. Pick one for real use: Google (see OAUTH2_SETUP.md) or nothing but the dev link.
+      GOOGLE_OAUTH_CLIENT_ID: ${GOOGLE_OAUTH_CLIENT_ID:-}
+      GOOGLE_OAUTH_CLIENT_SECRET: ${GOOGLE_OAUTH_CLIENT_SECRET:-}
+      BLOCK_NEW_ACCOUNTS: ${BLOCK_NEW_ACCOUNTS:-true}
+      ALLOWED_EMAILS: ${ALLOWED_EMAILS:-}
+      APP_OAUTH_CALLBACK_URL: ${APP_OAUTH_CALLBACK_URL:-http://localhost:48731/index.php?page=oauth2_callback}
+      DEV_LOGIN_ENABLED: ${DEV_LOGIN_ENABLED:-false}
+      DEV_LOGIN_SECRET: ${DEV_LOGIN_SECRET:-}
+      DEV_LOGIN_USER: ${DEV_LOGIN_USER:-devuser}
+      DEV_LOGIN_EMAIL: ${DEV_LOGIN_EMAIL:-dev@example.com}
+      # DEMO LOGIN: user name and password form on the sign-in page. For trying the software out only.
+      DEMO_LOGIN_ENABLED: ${DEMO_LOGIN_ENABLED:-true}
+      DEMO_LOGIN_USER: ${DEMO_LOGIN_USER:-demo}
+      DEMO_LOGIN_PASS: ${DEMO_LOGIN_PASS:-demo}
+      CREDENTIALS_ENCRYPTION_KEY: ${CREDENTIALS_ENCRYPTION_KEY:-}
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "${BIND_ADDR:-127.0.0.1}:${APP_PORT:-48731}:8080"
+    volumes:
+      - ./src:/var/www/html:cached
+      - ./app/ports.conf:/etc/apache2/ports.conf:ro
+      - ./app/vhost.conf:/etc/apache2/sites-available/000-default.conf:ro
+      - ./app/session.ini:/usr/local/etc/php/conf.d/98-session.ini:ro
+      - app_sessions:/var/lib/app-sessions
+    restart: unless-stopped
+
+  db:
+    image: postgis/postgis:16-3.5
+    container_name: ${COMPOSE_PROJECT_NAME:-fpm}-db
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-fpm_db}
+      POSTGRES_USER: ${POSTGRES_USER:-appuser}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      TZ: ${TZ:-UTC}
+    command: ["postgres", "-c", "listen_addresses=*"]
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./db/init:/docker-entrypoint-initdb.d:ro
+    # The database is only reachable by the app, inside Docker. To use psql from the host, add:
+    #   ports: ["127.0.0.1:55432:5432"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -p 5432 -U ${POSTGRES_USER:-appuser} -d ${POSTGRES_DB:-fpm_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  db_data:
+  app_sessions:

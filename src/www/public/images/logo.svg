@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 48" role="img" aria-label="FPM Fibre Plant Manager">
+  <title>FPM</title>
+  <g fill="none" stroke="#0f766e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 34 C14 34 14 14 24 14 S34 34 44 34"/>
+    <path d="M4 14 C14 14 14 34 24 34 S34 14 44 14" stroke="#14b8a6" opacity=".75"/>
+  </g>
+  <g fill="#0f766e"><circle cx="4" cy="34" r="3.5"/><circle cx="44" cy="14" r="3.5"/><circle cx="24" cy="24" r="3"/></g>
+  <text x="58" y="33" font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="26" font-weight="700" letter-spacing="1" fill="#0f172a">FPM</text>
+  <text x="58" y="44" font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="7.5" letter-spacing="1.6" fill="#64748b">FIBRE PLANT MANAGER</text>
+</svg>

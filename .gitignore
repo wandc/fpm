@@ -1,0 +1,4 @@
+.env
+sessions/*
+node_modules/
+src/www/app/org.local.php

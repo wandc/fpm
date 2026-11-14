@@ -1,0 +1,17 @@
+Tinuum Networks Fibre Plant Manager
+Copyright (C) 2025-2026 Tinuum Networks Inc. All rights reserved except as granted by the licence.
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero
+General Public License as published by the Free Software Foundation, either version 3 of the License, or (at
+your option) any later version. It is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
+General Public License (the file LICENSE) for more details.
+
+Tinuum Networks Inc. keeps the copyright in this software. People who send changes keep the copyright in
+their own contributions and license them as described in CONTRIBUTING.md.
+
+"Tinuum" and the Tinuum logo are trademarks of Tinuum Networks Inc. The licence does not give permission to
+use them. Remove or replace them in anything you publish.
+
+Third-party components keep their own licences: Leaflet, Leaflet-Geoman, Bootstrap, vis-network and the other
+libraries loaded from CDNs; OpenStreetMap data (ODbL); GeoNB data (Open Government Licence - New Brunswick).

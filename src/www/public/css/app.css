@@ -1,0 +1,442 @@
+/* SPDX-License-Identifier: AGPL-3.0-or-later
+ * Copyright (C) 2025-2026 Tinuum Networks Inc. */
+/* Global app styles */
+
+.user-menu-toggle {
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+.user-menu-toggle:hover,
+.user-menu-toggle:focus {
+  border-color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.user-menu-icon {
+  display: inline-flex;
+  line-height: 1;
+}
+
+.user-menu-name {
+  max-width: 180px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-menu-provider {
+  display: inline-block;
+  font-size: 0.7rem;
+  line-height: 1;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 999px;
+  padding: 0.15rem 0.45rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.user-menu-meta {
+  min-width: 260px;
+}
+
+.user-menu-meta-value {
+  word-break: break-word;
+}
+
+.user-menu-logout {
+  width: 100%;
+  text-align: left;
+}
+
+/* ── Global navbar search ──────────────────────────────────────────────────── */
+
+.navbar-search-input {
+  width: 220px;
+  background: rgba(255,255,255,0.18);
+  border-color: rgba(255,255,255,0.35);
+  color: #fff;
+  transition: width .2s, background .15s;
+}
+.navbar .navbar-search-input { padding-left: 1.9rem; }
+.navbar-search-icon {
+  position: absolute; left: .55rem; top: 50%; transform: translateY(-50%);
+  width: 15px; height: 15px; pointer-events: none;
+  fill: none; stroke: #6c757d; stroke-width: 2.2; stroke-linecap: round;
+}
+.navbar-search-input::placeholder { color: rgba(255,255,255,0.6); }
+.navbar-search-input:focus {
+  width: 300px;
+  background: #fff;
+  color: #212529;
+  border-color: #fff;
+  box-shadow: none;
+}
+.navbar-search-input:focus::placeholder { color: #aaa; }
+
+.navbar-search-drop {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  min-width: 320px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(0,0,0,.15);
+  z-index: 2000;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.search-group-header {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: #999;
+  padding: 0.55rem 0.85rem 0.2rem;
+  border-top: 1px solid #f0f0f0;
+  user-select: none;
+}
+.search-group-header:first-child { border-top: none; }
+
+.search-result-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.45rem 0.85rem;
+  color: #212529;
+  text-decoration: none;
+  cursor: pointer;
+}
+.search-result-row:hover,
+.search-result-row.active {
+  background: #f0f4ff;
+  color: #0d6efd;
+}
+.search-result-row.active { outline: none; }
+
+.search-status-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.search-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.search-sublabel {
+  font-size: 0.78rem;
+  color: #777;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.search-result-row:hover .search-sublabel,
+.search-result-row.active .search-sublabel { color: inherit; opacity: 0.7; }
+
+.search-empty {
+  padding: 0.65rem 0.85rem;
+  font-size: 0.85rem;
+  color: #888;
+  font-style: italic;
+}
+
+.sidebar-group-header {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: #888;
+  padding: 0.75rem 1rem 0.2rem;
+  user-select: none;
+}
+
+.sidebar-item-grouped {
+  padding-left: 1.25rem;
+}
+
+.user-settings-card dt {
+  color: #6c757d;
+  font-weight: 600;
+}
+
+.user-settings-card dd {
+  margin-bottom: 0.5rem;
+}
+
+/* ── Mobile responsive navbar ──────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .navbar-search-input        { width: 110px; }
+  .navbar-search-input:focus  { width: 150px; }
+}
+
+/* ── Modal: <form> wrapper scroll fix ───────────────────────────────────────
+   Many modals wrap .modal-header/.modal-body/.modal-footer in a <form> so the
+   whole thing posts as one. That form is a plain block, which breaks the flex
+   chain Bootstrap relies on: .modal-body never gets a bounded height, so it
+   can't scroll and .modal-content (overflow:hidden) just clips the overflow.
+   Making the form inherit the column layout restores scrolling.
+ ─────────────────────────────────────────────────────────────────────────── */
+.modal-dialog-scrollable .modal-content > form {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  max-height: 100%;
+  overflow: hidden;
+}
+
+.modal-dialog-scrollable .modal-content > form > .modal-body {
+  overflow-y: auto;
+  min-height: 0;
+}
+
+/* ── Modal: iOS scroll fix ──────────────────────────────────────────────────
+   Problem: Bootstrap modals use position:fixed with height:100% (layout
+   viewport). iOS Safari won't touch-scroll a fixed element. Making .modal
+   itself scroll causes background bleed-through.
+
+   Solution: leave .modal untouched; instead constrain .modal-dialog to the
+   VISIBLE viewport (dvh) and make .modal-body the scroll container.
+   .modal-body is NOT position:fixed so iOS scrolls it natively.
+
+   dvh (dynamic viewport height) accounts for Safari's URL bar and tab bar,
+   preventing the initial clip. The JS in layout.php adjusts .modal-dialog
+   height via the VisualViewport API when the keyboard appears.
+ ─────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 991.98px) {
+  .modal-dialog {
+    height:     calc(100dvh - 3.5rem);
+    max-height: calc(100dvh - 3.5rem);
+    margin: 1.75rem auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .modal-content,
+  .modal-content > form {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .modal-header,
+  .modal-footer {
+    flex-shrink: 0;
+  }
+
+  .modal-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+}
+
+/* ── Icon rail navigation ───────────────────────────────────────────────────
+   The left nav is a 56px rail of group glyphs; each group opens a flyout with
+   its pages on hover, click or keyboard focus. Replaces the old always-open
+   col-md-2 list, which rendered 43 rows on every page. Page/group membership
+   still comes from app/nav.php; the glyphs come from app/nav_rail.php. */
+:root {
+  --rail-w: 56px;
+  --rail-bg: #f6f7f8;
+  --rail-accent: #ffb04f;
+  --rail-ink: #5a6169;
+}
+
+.app-shell { display: flex; align-items: stretch; }
+.app-main  { flex: 1 1 auto; min-width: 0; }   /* min-width:0 so wide tables scroll, not stretch */
+
+.nav-rail {
+  flex: 0 0 var(--rail-w);
+  width: var(--rail-w);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 0;
+  background: var(--rail-bg);
+  border-right: 1px solid #dee2e6;
+  overflow: visible;          /* flyouts escape the rail */
+  z-index: 1030;
+}
+
+.nav-rail-sep {
+  width: 24px;
+  height: 1px;
+  background: #ced4da;
+  margin: 6px 0;
+}
+
+.nav-rail-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--rail-ink);
+  text-decoration: none;
+  transition: background .12s, color .12s;
+}
+.nav-rail-btn:hover,
+.nav-rail-btn:focus-visible { background: rgba(0,0,0,.07); color: #212529; }
+.nav-rail-btn:focus-visible { outline: 2px solid var(--rail-accent); outline-offset: 1px; }
+
+.nav-rail-icon {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+/* Active page (pinned link) and active group both get the orange marker */
+.nav-rail-btn.is-active,
+.nav-rail-group.is-active > .nav-rail-btn {
+  background: rgba(255,176,79,.22);
+  color: #212529;
+}
+.nav-rail-btn.is-active::before,
+.nav-rail-group.is-active > .nav-rail-btn::before {
+  content: "";
+  position: absolute;
+  left: -8px;
+  top: 8px;
+  bottom: 8px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: var(--rail-accent);
+}
+
+/* ── Tooltip for the icon-only buttons ─────────────────────────────────── */
+.nav-rail-tip {
+  position: absolute;
+  left: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  background: #212529;
+  color: #fff;
+  font-size: .78rem;
+  line-height: 1;
+  padding: .4rem .55rem;
+  border-radius: 6px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .12s;
+  pointer-events: none;
+  z-index: 1036;
+}
+.nav-rail-tip kbd {
+  background: rgba(255,255,255,.18);
+  border-radius: 3px;
+  padding: 0 .25rem;
+  font-size: .7rem;
+}
+.nav-rail-btn:hover > .nav-rail-tip,
+.nav-rail-btn:focus-visible > .nav-rail-tip { opacity: 1; visibility: visible; }
+
+/* ── Group flyout ──────────────────────────────────────────────────────── */
+.nav-rail-group { position: relative; }
+
+.nav-rail-flyout {
+  position: absolute;
+  left: 100%;
+  top: -6px;
+  min-width: 208px;
+  padding: 6px;
+  background: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.14);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-4px);
+  transition: opacity .12s, transform .12s;
+  z-index: 1035;
+}
+.nav-rail-group:hover > .nav-rail-flyout,
+.nav-rail-group:focus-within > .nav-rail-flyout,
+.nav-rail-group.is-open > .nav-rail-flyout {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+}
+
+.nav-rail-flyout-title {
+  font-size: .66rem;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: #8a9199;
+  padding: .3rem .6rem .35rem;
+  user-select: none;
+}
+
+.nav-rail-flyout-item {
+  display: block;
+  padding: .38rem .6rem;
+  border-radius: 6px;
+  font-size: .88rem;
+  color: #343a40;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.nav-rail-flyout-item:hover { background: #f1f3f5; color: #000; }
+.nav-rail-flyout-item.is-active {
+  background: rgba(255,176,79,.28);
+  font-weight: 600;
+  color: #212529;
+}
+
+@media print { .nav-rail { display: none !important; } }
+
+/* ── Mobile drawer: same two levels, as collapsible sections ────────────── */
+.nav-drawer-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: #6c757d;
+}
+.nav-drawer-group::after {
+  content: "\203A";              /* > : points right when closed, down when open */
+  flex: 0 0 auto;
+  margin-left: .5rem;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: #adb5bd;
+  transform: rotate(90deg);
+  transition: transform .15s;
+}
+.nav-drawer-group.collapsed::after { transform: rotate(0deg); }
+.nav-drawer-count {
+  margin-left: auto;
+  margin-right: .4rem;
+  font-size: .68rem;
+  color: #adb5bd;
+}
